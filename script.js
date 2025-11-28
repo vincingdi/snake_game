@@ -1,9 +1,24 @@
 
-// container style change
+const Direction = {
+    current_direction: 'Right',
+    Up: 'Up',
+    Down: 'Down',
+    Left: 'Left',
+    Right: 'Right'
+};
+
+var current_pos = {
+   pos1: 0,
+   pos2: 0, 
+}
+
+
+
 function createGrid(squaresPerSide = 16) {
 
     var myGrid = [...Array(squaresPerSide)].map(() => Array(squaresPerSide));
 
+    // container style change
     var container = document.getElementById("container");
     container.innerHTML = '';
     container.style.display = "flex";
@@ -30,54 +45,70 @@ function createGrid(squaresPerSide = 16) {
     return myGrid;
 }
 
-function move(grid) {
-    var pos_1 = 0 , pos_2 = 0;
-    current_div = grid[pos_1][pos_2];
-    var temp;
+function move(grid, current_pos, direction) {
+    var pos_1 = current_pos.pos1, pos_2 = current_pos.pos2;
+    if (direction.current_direction === 'Down') {
+        pos_1++;
+        grid[pos_1][pos_2].style.backgroundColor = "black";
+        grid[pos_1-1][pos_2].style.backgroundColor = "gray";
+    }
+    else if (direction.current_direction === 'Up') {
+        pos_1--;
+        grid[pos_1][pos_2].style.backgroundColor = "black";
+        grid[pos_1+1][pos_2].style.backgroundColor = "gray";
+    }
+    else if (direction.current_direction === 'Left') {
+        pos_2--;
+        grid[pos_1][pos_2].style.backgroundColor = "black";
+        grid[pos_1][pos_2+1].style.backgroundColor = "gray";
+    } else if (direction.current_direction === 'Right') {
+        pos_2++;
+        grid[pos_1][pos_2].style.backgroundColor = "black";
+        grid[pos_1][pos_2-1].style.backgroundColor = "gray";
+    }
+
+    current_pos.pos1 = pos_1;
+    current_pos.pos2 = pos_2;
+    
+    
+        
+    return grid;
+}
+
+function changeDirection(direction_object) {
+   
     window.addEventListener("keydown", (event) => {
         if (event.defaultPrevented) {
             return;
         }
-        var temp = grid[pos_1][pos_2]
         switch (event.code) {
             case "KeyS":
-                pos_1++;
-                temp = grid[pos_1][pos_2];
-                grid[pos_1][pos_2].style.backgroundColor = "black";
-                grid[pos_1-1][pos_2].style.backgroundColor = "gray";
+                direction_object.current_direction = direction_object.Down;
                 break;
             case "KeyW":
-                pos_1--;
-                temp = grid[pos_1][pos_2];
-                grid[pos_1][pos_2].style.backgroundColor = "black";
-                grid[pos_1+1][pos_2].style.backgroundColor = "gray";
+                direction_object.current_direction = direction_object.Up;
                 break;
             case "KeyA":
-                pos_2--;
-                temp = grid[pos_1][pos_2];
-                grid[pos_1][pos_2].style.backgroundColor = "black";
-                grid[pos_1][pos_2+1].style.backgroundColor = "gray";
+                direction_object.current_direction = direction_object.Left;
                 break;
             case "KeyD":
-                pos_2++;
-                temp = grid[pos_1][pos_2];
-                grid[pos_1][pos_2].style.backgroundColor = "black";
-                grid[pos_1][pos_2-1].style.backgroundColor = "gray";
+                direction_object.current_direction = direction_object.Right;
                 break;
         }
-        console.log("KeyPressed !");
-    })
-    return grid;
-
+    });
 }
 
 function mainLoop() {
-    var grid = createGrid();
-    grid[0][0].style.backgroundColor = "black";
-    grid = move(grid);
 
+    grid = createGrid();
+    grid[0][0].style.backgroundColor = "black";
+    window.setInterval(function() {
+        move(grid, current_pos, Direction);
+    }, 250);
+    changeDirection(Direction);
     
 }
+
 
 
 mainLoop();
