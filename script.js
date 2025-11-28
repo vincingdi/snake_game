@@ -1,5 +1,5 @@
 
-const Direction = {
+var direction = {
     current_direction: 'Right',
     Up: 'Up',
     Down: 'Down',
@@ -7,9 +7,14 @@ const Direction = {
     Right: 'Right'
 };
 
-var current_pos = {
+var currentPos = {
    pos1: 0,
    pos2: 0, 
+}
+
+var foodPos = {
+    pos1: 0,
+    pos2: 0,
 }
 
 
@@ -99,12 +104,13 @@ function changeDirection(direction_object) {
 }
 
 
-function createFood(squaresPerSide, grid) {
+function createFood(squaresPerSide, grid, foodPos) {
     let rowN = Math.floor(Math.random() * squaresPerSide);
     let columnN = Math.floor(Math.random() * squaresPerSide);
     grid[rowN][columnN].style.backgroundColor = "green";
-
-
+    foodPos.pos1 = rowN;
+    foodPos.pos2 = columnN;
+    
 }
 
 function mainLoop() {
@@ -112,11 +118,13 @@ function mainLoop() {
     grid = createGrid(squaresPerSide);
     grid[0][0].style.backgroundColor = "black";
     window.setInterval(function() {
-        move(grid, current_pos, Direction);
+        move(grid, currentPos, direction);
+        if (currentPos.pos1 == foodPos.pos1 && currentPos.pos2 == foodPos.pos2) {
+            createFood(squaresPerSide, grid, foodPos);
+        }
     }, 250);
-    changeDirection(Direction);
-    createFood(squaresPerSide, grid);
-    
+    changeDirection(direction);
+    createFood(squaresPerSide, grid, foodPos);
 }
 
 
