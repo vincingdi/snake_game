@@ -14,7 +14,7 @@ var current_pos = {
 
 
 
-function createGrid(squaresPerSide = 16) {
+function createGrid(squaresPerSide) {
 
     var myGrid = [...Array(squaresPerSide)].map(() => Array(squaresPerSide));
 
@@ -98,14 +98,24 @@ function changeDirection(direction_object) {
     });
 }
 
-function mainLoop() {
 
-    grid = createGrid();
+function createFood(squaresPerSide, grid) {
+    let rowN = Math.floor(Math.random() * squaresPerSide);
+    let columnN = Math.floor(Math.random() * squaresPerSide);
+    grid[rowN][columnN].style.backgroundColor = "green";
+
+
+}
+
+function mainLoop() {
+    squaresPerSide = 16;
+    grid = createGrid(squaresPerSide);
     grid[0][0].style.backgroundColor = "black";
     window.setInterval(function() {
         move(grid, current_pos, Direction);
     }, 250);
     changeDirection(Direction);
+    createFood(squaresPerSide, grid);
     
 }
 
