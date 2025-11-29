@@ -93,11 +93,13 @@ function changeDirection(direction_object) {
 }
 
 
-function createFood(squaresPerSide, foodPos) {
-    let rowN = Math.floor(Math.random() * squaresPerSide);
-    let columnN = Math.floor(Math.random() * squaresPerSide);
-    foodPos.pos1 = rowN;
-    foodPos.pos2 = columnN;
+function createFood(squaresPerSide, foodPos, snake_seg) {
+    do {
+        let rowN = Math.floor(Math.random() * squaresPerSide);
+        let columnN = Math.floor(Math.random() * squaresPerSide);
+        foodPos.pos1 = rowN;
+        foodPos.pos2 = columnN;
+    } while (snake_seg.some((seg) => foodPos.pos1 == seg[0] && foodPos == seg[1]))
     
 }
 
@@ -107,7 +109,7 @@ function boardClear(grid, squaresPerSide) {
     for (let i=0; i<squaresPerSide; i++) {
         for (let j=0; j<squaresPerSide; j++) {
             grid[i][j].style.backgroundColor = "gray";
-        }
+        }   
     }
 }
 
@@ -160,7 +162,6 @@ function mainLoop() {
     currentPos.pos2 = 0;
     snake_seg = [[currentPos.pos1, currentPos.pos2]]
     let x1, x2, y1, y2;
-    console.log(snake_seg[0]);
     let interval = window.setInterval(function() {
         move(grid, currentPos, direction, snake_seg);
         for (let i=1; i<seg_count; i++) {
@@ -198,11 +199,11 @@ function mainLoop() {
             } 
             seg_count++;
             score.textContent = (seg_count - 1).toString();
-            createFood(squaresPerSide, foodPos);
+            createFood(squaresPerSide, foodPos, snake_seg);
         }
     }, speed);
     changeDirection(direction);
-    createFood(squaresPerSide, foodPos);
+    createFood(squaresPerSide, foodPos, snake_seg);
 }
 
 
