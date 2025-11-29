@@ -108,6 +108,7 @@ function createFood(squaresPerSide, foodPos) {
 }
 
 
+
 function boardClear(grid, squaresPerSide) {
     for (let i=0; i<squaresPerSide; i++) {
         for (let j=0; j<squaresPerSide; j++) {
@@ -124,19 +125,42 @@ function draw(snake_seg, seg_count, grid, foodPos) {
 
 }
 
+function checkCollision(snake_seg, seg_count, squaresPerSide, interval, speed) {
+    for (let i=0; i<seg_count; i++) {
+        if (snake_seg[i][0] == squaresPerSide || snake_seg[i][1] == squaresPerSide || snake_seg[i][0] < 0 ||  snake_seg[i][1] < 0) {
+            alert("YOU LOSE! SCORE: " + (seg_count-1));
+            clearInterval(interval);
+            mainLoop(speed/2);
+        }
+    }
+    for (let i=1; i<seg_count; i++) {
+        if (snake_seg[0][0] == snake_seg[i][0] && snake_seg[0][1] == snake_seg[i][1]) {
+            alert("YOU LOSE! SCORE: " + (seg_count-1));
+            clearInterval(interval);
+            mainLoop(speed/2);
+        }
+    }
 
-function mainLoop() {
+    
+}
+
+
+function mainLoop(speed) {
     squaresPerSide = 16;
     seg_count = 1;
+    score = 0;
+    direction.current_direction = "Right";
     grid = createGrid(squaresPerSide);
+    currentPos.pos1 = 0;
+    currentPos.pos2 = 0;
     snake_seg = [[currentPos.pos1, currentPos.pos2]]
     let x1, x2, y1, y2;
-    window.setInterval(function() {
+    console.log(snake_seg[0]);
+    let interval = window.setInterval(function() {
         move(grid, currentPos, direction, snake_seg);
         for (let i=1; i<seg_count; i++) {
             x1 = snake_seg[i][0];
             x2 = snake_seg[i][1];
-            console.log(x1, x2);
 
             if (i == 1) {
                 snake_seg[i][0] = snake_seg[i-1][0];
@@ -151,6 +175,7 @@ function mainLoop() {
 
         snake_seg[0][0] =  currentPos.pos1;
         snake_seg[0][1] =  currentPos.pos2;
+        checkCollision(snake_seg, seg_count, squaresPerSide, interval, speed);
         boardClear(grid, squaresPerSide);
         draw(snake_seg, seg_count, grid, foodPos)
         if (currentPos.pos1 == foodPos.pos1 && currentPos.pos2 == foodPos.pos2) {
@@ -169,11 +194,11 @@ function mainLoop() {
             seg_count++;
             createFood(squaresPerSide, foodPos);
         }
-    }, 250);
+    }, speed);
     changeDirection(direction);
     createFood(squaresPerSide, foodPos);
 }
 
 
 
-mainLoop();
+mainLoop(250);
