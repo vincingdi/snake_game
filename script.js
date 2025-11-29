@@ -143,8 +143,8 @@ function mainLoop() {
     let squaresPerSide;
     let speed;
 
-    while (!(squaresPerSide > 15 && squaresPerSide <= 100)) {
-        squaresPerSide = Number(prompt("Board size? 16-100"));
+    while (!(squaresPerSide > 2 && squaresPerSide <= 100)) {
+        squaresPerSide = Number(prompt("Board size? 3-100"));
     } 
     while (!(speed > 0 && speed <= 100)) {
         speed = Number(prompt("Snake speed? 1-100"));
