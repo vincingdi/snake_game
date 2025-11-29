@@ -28,16 +28,18 @@ function createGrid(squaresPerSide) {
     container.innerHTML = '';
     container.style.display = "flex";
     container.style.flexWrap = "wrap";
-    container.style.width = "640px";
-    container.style.height = "640px";
+    container.style.width = "480px";
+    container.style.height = "480px";
     container.style.backgroundColor= "black";
+    container.style.marginTop = "10px";
+    container.style.marginBottom = "auto";
 
             
     for (let i=0; i<squaresPerSide; i++) {
         for (let j=0; j<squaresPerSide; j++) {
             var div = document.createElement("div");
-            div.style.width = 640 / squaresPerSide + "px";
-            div.style.height = 640 / squaresPerSide + "px";
+            div.style.width = 480 / squaresPerSide + "px";
+            div.style.height = 480 / squaresPerSide + "px";
             div.style.backgroundColor  = "gray";
             // div.classList.add("grid-block");
             container.appendChild(div);
