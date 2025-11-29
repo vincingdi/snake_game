@@ -132,14 +132,14 @@ function checkCollision(snake_seg, seg_count, squaresPerSide, interval, speed) {
         if (snake_seg[i][0] == squaresPerSide || snake_seg[i][1] == squaresPerSide || snake_seg[i][0] < 0 ||  snake_seg[i][1] < 0) {
             alert("YOU LOSE! SCORE: " + (seg_count-1));
             clearInterval(interval);
-            mainLoop(speed/2);
+            mainLoop();
         }
     }
     for (let i=1; i<seg_count; i++) {
         if (snake_seg[0][0] == snake_seg[i][0] && snake_seg[0][1] == snake_seg[i][1]) {
             alert("YOU LOSE! SCORE: " + (seg_count-1));
             clearInterval(interval);
-            mainLoop(speed/2);
+            mainLoop();
         }
     }
 
@@ -147,8 +147,17 @@ function checkCollision(snake_seg, seg_count, squaresPerSide, interval, speed) {
 }
 
 
-function mainLoop(speed) {
-    squaresPerSide = 16;
+function mainLoop() {
+    let squaresPerSide;
+    let speed;
+    
+    while (!(squaresPerSide > 0 && squaresPerSide <= 100)) {
+        squaresPerSide = Number(prompt("Board size? 1-100"));
+    } 
+    while (!(speed > 0 && speed <= 100)) {
+        speed = Number(prompt("Snake speed? 1-100"));
+    } 
+    speed = 250 / speed;
     seg_count = 1;
     score = 0;
     direction.current_direction = "Right";
@@ -203,4 +212,4 @@ function mainLoop(speed) {
 
 
 
-mainLoop(250);
+mainLoop();
