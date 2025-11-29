@@ -56,22 +56,14 @@ function move(grid, current_pos, direction) {
     var pos_1 = current_pos.pos1, pos_2 = current_pos.pos2;
     if (direction.current_direction === 'Down') {
         pos_1++;
-        // grid[pos_1][pos_2].style.backgroundColor = "black";
-        // grid[pos_1-1][pos_2].style.backgroundColor = "gray";
     }
     else if (direction.current_direction === 'Up') {
         pos_1--;
-        // grid[pos_1][pos_2].style.backgroundColor = "black";
-        // grid[pos_1+1][pos_2].style.backgroundColor = "gray";
     }
     else if (direction.current_direction === 'Left') {
         pos_2--;
-        // grid[pos_1][pos_2].style.backgroundColor = "black";
-        // grid[pos_1][pos_2+1].style.backgroundColor = "gray";
     } else if (direction.current_direction === 'Right') {
         pos_2++;
-        // grid[pos_1][pos_2].style.backgroundColor = "black";
-        // grid[pos_1][pos_2-1].style.backgroundColor = "gray";
     }
 
     current_pos.pos1 = pos_1;
@@ -130,14 +122,14 @@ function draw(snake_seg, seg_count, grid, foodPos) {
 function checkCollision(snake_seg, seg_count, squaresPerSide, interval, speed) {
     for (let i=0; i<seg_count; i++) {
         if (snake_seg[i][0] == squaresPerSide || snake_seg[i][1] == squaresPerSide || snake_seg[i][0] < 0 ||  snake_seg[i][1] < 0) {
-            alert("YOU LOSE! SCORE: " + (seg_count-1));
+            alert("SCORE: " + (seg_count-1));
             clearInterval(interval);
             mainLoop();
         }
     }
     for (let i=1; i<seg_count; i++) {
         if (snake_seg[0][0] == snake_seg[i][0] && snake_seg[0][1] == snake_seg[i][1]) {
-            alert("YOU LOSE! SCORE: " + (seg_count-1));
+            alert("SCORE: " + (seg_count-1));
             clearInterval(interval);
             mainLoop();
         }
@@ -150,7 +142,7 @@ function checkCollision(snake_seg, seg_count, squaresPerSide, interval, speed) {
 function mainLoop() {
     let squaresPerSide;
     let speed;
-    
+
     while (!(squaresPerSide > 0 && squaresPerSide <= 100)) {
         squaresPerSide = Number(prompt("Board size? 1-100"));
     } 
@@ -159,7 +151,9 @@ function mainLoop() {
     } 
     speed = 250 / speed;
     seg_count = 1;
-    score = 0;
+    var score = document.getElementById("score");
+    score.textContent = (seg_count - 1).toString();
+    re = 0;
     direction.current_direction = "Right";
     grid = createGrid(squaresPerSide);
     currentPos.pos1 = 0;
@@ -203,6 +197,7 @@ function mainLoop() {
                snake_seg.push([snake_seg[seg_count-1][0]-1, snake_seg[seg_count-1][1]-1]) 
             } 
             seg_count++;
+            score.textContent = (seg_count - 1).toString();
             createFood(squaresPerSide, foodPos);
         }
     }, speed);
