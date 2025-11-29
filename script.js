@@ -86,20 +86,15 @@ function changeDirection(direction_object) {
         if (event.defaultPrevented) {
             return;
         }
-        switch (event.code) {
-            case "KeyS":
+            if (event.code == "KeyS" && direction_object.current_direction != "Up"){
                 direction_object.current_direction = direction_object.Down;
-                break;
-            case "KeyW":
+            } else if (event.code == "KeyW" && direction_object.current_direction != "Down") {
                 direction_object.current_direction = direction_object.Up;
-                break;
-            case "KeyA":
+            } else if (event.code == "KeyA" && direction_object.current_direction != "Right") {
                 direction_object.current_direction = direction_object.Left;
-                break;
-            case "KeyD":
+            } else if (event.code == "KeyD" && direction.current_direction != "Left") {
                 direction_object.current_direction = direction_object.Right;
-                break;
-        }
+            }
     });
 }
 
