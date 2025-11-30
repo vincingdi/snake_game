@@ -86,3 +86,24 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   flex-direction: column;
 }
+/*Gavates zaidimo stilizavimas*/
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(20, 20px);
+  grid-template-rows: repeat(20, 20px);
+  gap: 2px;
+  background-color: #fffef5;
+  padding: 10px;
+  border: 2px solid #e6dc8f;
+  border-radius: 8px;
+}
+
+.snake {
+  background-color: #4CAF50;
+  border-radius: 4px;
+}
+
+.food {
+  background-color: #ffd700;
+  border-radius: 50%;
+}
